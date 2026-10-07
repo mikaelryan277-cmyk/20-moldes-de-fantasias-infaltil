@@ -32,23 +32,23 @@ const IMAGES = {
   sample2: "/src/assets/images/costume_sample_2_1791402142657.jpg",
   bonus: "/src/assets/images/bonus_kit_mockup_1791402151011.jpg",
   marquee: [
-    "/images/molde-01.webp",
-    "/images/molde-02.webp",
-    "/images/molde-03.webp",
-    "/images/molde-04.webp",
-    "/images/molde-05.webp",
-    "/images/molde-06.webp",
-    "/images/molde-07.webp",
-    "/images/molde-08.webp",
-    "/images/molde-09.webp",
-    "/images/molde-10.webp",
+    "/images/fantasia-01.webp",
+    "/images/fantasia-02.webp",
+    "/images/fantasia-03.webp",
+    "/images/fantasia-04.webp",
+    "/images/fantasia-05.webp",
+    "/images/fantasia-06.webp",
+    "/images/fantasia-07.webp",
+    "/images/fantasia-08.webp",
+    "/images/fantasia-09.webp",
+    "/images/fantasia-10.webp",
   ]
 };
 
 // --- COMPONENTS ---
 
 const MarqueeCard = ({ src, alt }: { src: string, alt: string }) => (
-  <div className="flex-shrink-0 w-[140px] aspect-[3/4] bg-white rounded-[14px] overflow-hidden shadow-sm border border-slate-100">
+  <div className="flex-shrink-0 w-[155px] md:w-[165px] aspect-[4/5] bg-slate-200 rounded-xl overflow-hidden shadow-sm mr-2.5">
     <img src={src} alt={alt} className="w-full h-full object-cover" loading="lazy" referrerPolicy="no-referrer" />
   </div>
 );
@@ -56,13 +56,13 @@ const MarqueeCard = ({ src, alt }: { src: string, alt: string }) => (
 const InfiniteMarquee = ({ images, direction = 'left', speed = '30s' }: { images: string[], direction?: 'left' | 'right', speed?: string }) => {
   const doubledImages = [...images, ...images];
   return (
-    <div className="relative overflow-hidden py-2">
+    <div className="relative overflow-hidden py-1">
       <div 
-        className={`flex gap-3 w-fit ${direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'} hover:[animation-play-state:paused]`}
+        className={`flex w-fit ${direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'}`}
         style={{ animationDuration: speed }}
       >
         {doubledImages.map((src, i) => (
-          <MarqueeCard key={i} src={src} alt={`Molde Fantasia ${i + 1}`} />
+          <MarqueeCard key={i} src={src} alt="" />
         ))}
       </div>
     </div>
@@ -159,7 +159,7 @@ export default function App() {
       <UrgencyBar />
 
       {/* --- HERO SECTION --- */}
-      <section className="bg-white pt-8 pb-10 px-4">
+      <section className="bg-white pt-8 pb-4 px-4">
         <div className="max-w-md mx-auto">
           <div className="flex justify-center mb-5">
             <span className="bg-rose-50 text-rose-600 border border-rose-100 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.1em]">
@@ -175,7 +175,7 @@ export default function App() {
             Receba 20 moldes digitais em PDF, prontos para imprimir em folha A4 e usar nas suas próximas criações.
           </p>
 
-          <div className="grid grid-cols-2 gap-2 mb-8">
+          <div className="grid grid-cols-2 gap-2 mb-10">
             {[
               "20 modelos",
               "Arquivos em PDF",
@@ -189,27 +189,14 @@ export default function App() {
             ))}
           </div>
 
-          <div className="bg-emerald-50/50 rounded-2xl p-6 mb-2 border border-emerald-100 text-center">
-            <p className="text-emerald-800 font-black text-xs uppercase tracking-[0.2em] mb-1">Oferta Especial</p>
-            <div className="flex items-start justify-center">
-              <span className="text-xl font-black text-emerald-600 mt-1 mr-0.5">R$</span>
-              <span className="text-6xl font-black text-emerald-600 tracking-tighter">19,90</span>
-            </div>
-          </div>
-
-          <div className="space-y-4 pt-4">
-            <CTAButton>QUERO RECEBER OS 20 MOLDES</CTAButton>
-            <div className="flex items-center justify-center gap-3 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-              <span className="flex items-center gap-1.5"><Lock className="w-3 h-3" /> Pagamento Seguro</span>
-              <span className="flex items-center gap-1.5">·</span>
-              <span className="flex items-center gap-1.5">Acesso Digital</span>
-            </div>
+          <div className="text-center animate-bounce">
+            <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest">VEJA ALGUNS DOS MOLDES QUE VOCÊ VAI RECEBER 👇</p>
           </div>
         </div>
       </section>
 
       {/* --- MARQUEE SHOWCASE --- */}
-      <section className="py-10 bg-white border-y border-slate-100">
+      <section className="pt-6 pb-10 bg-white border-t border-slate-100">
         <div className="max-w-md mx-auto">
           <SectionTitle subtitle="Alguns dos modelos que você recebe no pacote">
             Olha quantas coisas você poderá criar 😍
