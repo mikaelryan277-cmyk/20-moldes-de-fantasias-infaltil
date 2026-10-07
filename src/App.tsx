@@ -235,13 +235,15 @@ const UrgencyBar = () => {
   
   useEffect(() => {
     const now = new Date();
-    const formatted = now.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    setDate(formatted);
+    // Format: "7 DE OUTUBRO"
+    const day = now.getDate();
+    const month = now.toLocaleDateString('pt-BR', { month: 'long' });
+    setDate(`${day} DE ${month.toUpperCase()}`);
   }, []);
 
   return (
-    <div className="bg-[#E11D48] text-white py-2 text-center text-xs font-bold uppercase tracking-wider sticky top-0 z-50">
-      🔥 Oferta Especial Disponível Hoje ({date})
+    <div className="bg-[#E11D48] text-white py-2 text-center text-[10px] font-bold uppercase tracking-[0.2em] sticky top-0 z-50">
+      🔥 Oferta Especial — {date || "HOJE"}
     </div>
   );
 };
