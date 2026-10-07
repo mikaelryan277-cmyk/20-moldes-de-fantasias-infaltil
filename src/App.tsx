@@ -302,21 +302,6 @@ const FAQItem = ({ question, answer }: { question: string, answer: React.ReactNo
 };
 
 export default function App() {
-  const [showSticky, setShowSticky] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      // Show sticky after passing the hero section
-      if (window.scrollY > 800) {
-        setShowSticky(true);
-      } else {
-        setShowSticky(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-rose-100 selection:text-rose-900 overflow-x-hidden">
       <UrgencyBar />
@@ -669,37 +654,10 @@ export default function App() {
       </section>
 
       {/* --- FOOTER --- */}
-      <footer className="py-8 px-4 bg-slate-950 text-slate-600 text-[10px] text-center border-t border-slate-900 mb-20 md:mb-0">
+      <footer className="py-8 px-4 bg-slate-950 text-slate-600 text-[10px] text-center border-t border-slate-900">
         <p className="mb-2 uppercase tracking-widest">© {new Date().getFullYear()} {PRODUCT_NAME}</p>
         <p className="px-4">Este produto é comercializado com o apoio da [NOME DA PLATAFORMA]. A plataforma não faz controle editorial prévio dos produtos comercializados.</p>
       </footer>
-
-      {/* --- STICKY CTA MOBILE --- */}
-      <AnimatePresence>
-        {showSticky && (
-          <motion.div 
-            initial={{ y: 100 }}
-            animate={{ y: 0 }}
-            exit={{ y: 100 }}
-            className="fixed bottom-0 left-0 right-0 z-[60] bg-white/95 backdrop-blur-md border-t border-slate-200 p-4 shadow-[0_-10px_20px_rgba(0,0,0,0.05)] md:hidden"
-          >
-            <div className="max-w-md mx-auto flex items-center gap-4">
-              <div className="flex-1">
-                <div className="text-[10px] font-black text-slate-400 uppercase leading-none mb-1">20 Moldes PDF</div>
-                <div className="text-lg font-black text-slate-900 leading-none tracking-tight">R$ 19,90</div>
-              </div>
-              <div className="flex-[1.5]">
-                <a 
-                  href={CHECKOUT_URL}
-                  className="flex items-center justify-center w-full py-3 bg-[#10B981] text-white rounded-xl font-black text-sm uppercase tracking-wider active:scale-95 shadow-md shadow-emerald-500/10"
-                >
-                  Quero Agora
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
