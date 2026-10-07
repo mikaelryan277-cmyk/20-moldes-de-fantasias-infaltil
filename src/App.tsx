@@ -19,7 +19,7 @@ import {
 import { motion, AnimatePresence } from 'motion/react';
 
 // --- CONFIGURATION ---
-const CHECKOUT_URL = "#"; // Replace with real checkout link
+const CHECKOUT_URL = "https://ggcheckout.app/checkout/v4/e2JuRCOtPeneTm3E4llh";
 const PRODUCT_NAME = "20 Moldes de Fantasias Infantis";
 const PRICE = "19,90";
 const OLD_PRICE = "97,00";
