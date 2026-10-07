@@ -1,0 +1,8 @@
+{
+  "name": "20 Moldes de Fantasias Infantis PDF",
+  "description": "Pacote completo com 20 moldes de fantasias infantis em PDF prontos para imprimir em A4.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
