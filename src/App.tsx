@@ -27,10 +27,15 @@ const OLD_PRICE = "97,00";
 // --- ASSETS ---
 const IMAGES = {
   hero: "/src/assets/images/hero_mockup_1791402111308.jpg",
-  guarantee: "/src/assets/images/guarantee_seal_1791402122921.jpg",
   sample1: "/src/assets/images/costume_sample_1_1791402133658.jpg",
   sample2: "/src/assets/images/costume_sample_2_1791402142657.jpg",
-  bonus: "/src/assets/images/bonus_kit_mockup_1791402151011.jpg",
+  bonus: "/images/bonus-kit-3-princesas.jpg",
+  guarantee: "/images/garantia-7-dias.png",
+  infographic: "/images/infografico-moldes.jpg",
+  section_digital: "/images/moldes-prontos-pdf.webp",
+  avatar1: "/images/avatar-avaliacao-01.webp",
+  avatar2: "/images/avatar-avaliacao-02.webp",
+  avatar3: "/images/avatar-avaliacao-03.webp",
   marquee: [
     "/images/fantasia-01.webp",
     "/images/fantasia-02.webp",
@@ -47,24 +52,180 @@ const IMAGES = {
 
 // --- COMPONENTS ---
 
-const MarqueeCard = ({ src, alt }: { src: string, alt: string }) => (
-  <div className="flex-shrink-0 w-[155px] md:w-[165px] aspect-[4/5] bg-slate-200 rounded-xl overflow-hidden shadow-sm mr-2.5">
-    <img src={src} alt={alt} className="w-full h-full object-cover" loading="lazy" referrerPolicy="no-referrer" />
+const MarqueeCard = ({ src }: { src: string }) => (
+  <div className="w-[155px] md:w-[165px] aspect-[4/5] bg-slate-200 rounded-xl overflow-hidden shadow-sm flex-shrink-0">
+    <img src={src} alt="" className="w-full h-full object-cover" loading="lazy" referrerPolicy="no-referrer" />
   </div>
 );
 
-const InfiniteMarquee = ({ images, direction = 'left', speed = '30s' }: { images: string[], direction?: 'left' | 'right', speed?: string }) => {
-  const doubledImages = [...images, ...images];
+const AutoplaySlider = ({ images, direction = 'left', interval = 2000 }: { images: string[], direction?: 'left' | 'right', interval?: number }) => {
+  const [index, setIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(true);
+  
+  // We double the images to allow smooth infinite loop
+  const displayImages = [...images, ...images];
+  const itemWidth = 165; // Matches card width
+  const gap = 10;
+  const step = itemWidth + gap;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((prev) => {
+        if (direction === 'left') {
+          // Move left: increment index
+          if (prev >= images.length) {
+            // We are at the end of the first set, jump back to start after this transition
+            return prev + 1;
+          }
+          return prev + 1;
+        } else {
+          // Move right: decrement index
+          if (prev <= 0) {
+            return prev - 1;
+          }
+          return prev - 1;
+        }
+      });
+      setIsTransitioning(true);
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [images.length, direction, interval]);
+
+  // Handle the jump for infinite loop
+  useEffect(() => {
+    if (direction === 'left' && index > images.length) {
+      const timeout = setTimeout(() => {
+        setIsTransitioning(false);
+        setIndex(1); // Jump to the second item (index 1 is same as the one we just transitioned to)
+      }, 600); // Wait for transition to finish
+      return () => clearTimeout(timeout);
+    }
+    
+    if (direction === 'right' && index < 0) {
+      const timeout = setTimeout(() => {
+        setIsTransitioning(false);
+        setIndex(images.length - 1);
+      }, 600);
+      return () => clearTimeout(timeout);
+    }
+  }, [index, images.length, direction]);
+
+  // For the 'right' direction, we start at the end of the first set
+  useEffect(() => {
+    if (direction === 'right') {
+      setIndex(images.length);
+      setIsTransitioning(false);
+    }
+  }, [direction, images.length]);
+
+  const offset = -index * step;
+
   return (
-    <div className="relative overflow-hidden py-1">
+    <div className="w-full overflow-hidden py-2 bg-white">
       <div 
-        className={`flex w-fit ${direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'}`}
-        style={{ animationDuration: speed }}
+        className="flex gap-[10px] will-change-transform"
+        style={{ 
+          transform: `translate3d(${offset}px, 0, 0)`,
+          transition: isTransitioning ? 'transform 600ms ease-in-out' : 'none',
+          paddingLeft: '16px' // Initial offset to show previous cards
+        }}
       >
-        {doubledImages.map((src, i) => (
-          <MarqueeCard key={i} src={src} alt="" />
+        {displayImages.map((src, i) => (
+          <MarqueeCard key={i} src={src} />
         ))}
       </div>
+    </div>
+  );
+};
+
+const TestimonialCard = ({ name, text, date, avatar }: { name: string, text: string, date: string, avatar: string }) => {
+  const [liked, setLiked] = useState(false);
+  const [replyOpen, setReplyOpen] = useState(false);
+  const [replyInput, setReplyInput] = useState("");
+  const [replies, setReplies] = useState<string[]>([]);
+
+  const handleSendReply = () => {
+    if (replyInput.trim()) {
+      setReplies([...replies, replyInput.trim()]);
+      setReplyInput("");
+      setReplyOpen(false);
+    }
+  };
+
+  return (
+    <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+      <div className="flex items-center gap-3 mb-2">
+        <div className="w-[46px] h-[46px] rounded-full overflow-hidden border border-white shadow-sm flex-shrink-0">
+          <img src={avatar} alt={name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+        </div>
+        <div>
+          <h4 className="text-sm font-black text-slate-900 leading-none mb-1">{name}</h4>
+          <span className="text-[10px] text-slate-400 font-bold">{date}</span>
+        </div>
+      </div>
+      <p className="text-sm text-slate-700 leading-snug">{text}</p>
+      
+      <div className="mt-3 pt-3 border-t border-slate-100 flex gap-4">
+        <button 
+          onClick={() => setLiked(!liked)}
+          className={`text-[10px] font-black uppercase tracking-widest transition-all active:scale-90 ${liked ? 'text-rose-500' : 'text-slate-400'}`}
+        >
+          {liked ? 'Curtido' : 'Curtir'}
+        </button>
+        <button 
+          onClick={() => setReplyOpen(!replyOpen)}
+          className="text-[10px] font-black text-slate-400 hover:text-slate-600 uppercase tracking-widest active:scale-95"
+        >
+          Responder
+        </button>
+      </div>
+
+      <AnimatePresence>
+        {replyOpen && (
+          <motion.div 
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="mt-4 overflow-hidden"
+          >
+            <textarea 
+              value={replyInput}
+              onChange={(e) => setReplyInput(e.target.value)}
+              placeholder="Escreva uma resposta..."
+              className="w-full p-3 text-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-rose-500 mb-2 bg-slate-50 min-h-[80px]"
+            />
+            <div className="flex gap-2 justify-end">
+              <button 
+                onClick={() => setReplyOpen(false)}
+                className="px-3 py-1.5 text-[10px] font-bold text-slate-400 uppercase tracking-widest hover:text-slate-600"
+              >
+                Cancelar
+              </button>
+              <button 
+                onClick={handleSendReply}
+                className="px-4 py-1.5 bg-rose-500 text-white text-[10px] font-black uppercase tracking-widest rounded-lg active:scale-95 transition-transform"
+              >
+                Enviar
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {replies.length > 0 && (
+        <div className="mt-4 space-y-3 pl-4 border-l-2 border-slate-100">
+          {replies.map((r, i) => (
+            <div key={i} className="bg-slate-50 p-3 rounded-lg">
+              <div className="flex items-center gap-2 mb-1">
+                <div className="w-5 h-5 rounded-full bg-slate-300 flex items-center justify-center text-[8px] text-white font-black">V</div>
+                <span className="text-[10px] font-black text-slate-900">Você</span>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">{r}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
@@ -203,16 +364,16 @@ export default function App() {
           </SectionTitle>
         </div>
 
-        <div className="flex flex-col gap-1">
-          <InfiniteMarquee 
+        <div className="flex flex-col gap-2">
+          <AutoplaySlider 
             images={IMAGES.marquee.slice(0, 5)} 
             direction="left" 
-            speed="30s" 
+            interval={2000}
           />
-          <InfiniteMarquee 
+          <AutoplaySlider 
             images={IMAGES.marquee.slice(5, 10)} 
             direction="right" 
-            speed="34s" 
+            interval={2300}
           />
         </div>
       </section>
@@ -299,22 +460,22 @@ export default function App() {
             Tudo organizado para você acessar quando precisar
           </SectionTitle>
 
-          <div className="relative mb-8 px-4">
+          <div className="relative mb-8">
             <div className="absolute inset-0 bg-rose-200 blur-3xl opacity-30 rounded-full"></div>
             <img 
-              src={IMAGES.hero} 
+              src={IMAGES.section_digital} 
               alt="Digital Product Mockup" 
-              className="w-full h-auto relative z-10 rounded-2xl shadow-2xl border border-white"
+              className="w-full h-auto relative z-10 rounded-2xl shadow-xl object-contain border border-white bg-white"
               referrerPolicy="no-referrer"
             />
           </div>
 
           <div className="space-y-3">
             {[
-              "20 moldes digitais exclusivos",
-              "Arquivos em PDF em alta resolução",
-              "Material totalmente preparado para impressão",
-              "Acesso digital imediato pós confirmação"
+              "Acesso imediato a todos os 20 moldes",
+              "Arquivos organizados e fáceis de encontrar",
+              "Suporte para dúvidas via e-mail",
+              "Acesso vitalício ao material"
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-3 bg-white p-4 rounded-xl border border-slate-100 shadow-sm">
                 <CheckCircle2 className="w-5 h-5 text-emerald-500" />
@@ -357,22 +518,18 @@ export default function App() {
           <div className="bg-amber-100 text-amber-800 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full w-fit mx-auto mb-4">
             BÔNUS EXCLUSIVO
           </div>
-          <SectionTitle subtitle="Comprando hoje você ganha um presente especial">
+          <SectionTitle subtitle="Grade completa de 1 a 14 anos">
             Kit 3 Princesas de Bônus 👑
           </SectionTitle>
 
-          <div className="bg-white rounded-3xl p-6 shadow-xl shadow-amber-900/5 border border-amber-200">
+          <div className="bg-white rounded-3xl p-4 shadow-xl shadow-amber-900/5 border border-amber-200">
             <img 
               src={IMAGES.bonus} 
               alt="Bônus Kit 3 Princesas" 
-              className="w-full h-auto rounded-2xl mb-6 shadow-md"
+              className="w-full h-auto rounded-2xl shadow-md object-contain"
               referrerPolicy="no-referrer"
             />
-            <h3 className="text-xl font-black text-center mb-2">Grade Completa de 1 a 14 anos</h3>
-            <p className="text-slate-600 text-center text-sm mb-6">
-              Além dos 20 moldes, você recebe o nosso kit queridinho com as 3 princesas mais famosas.
-            </p>
-            <div className="bg-amber-50 rounded-xl p-4 text-center">
+            <div className="mt-6 bg-amber-50 rounded-xl p-4 text-center">
               <span className="text-amber-800 font-bold text-xs uppercase">VALOR DO BÔNUS: </span>
               <span className="text-amber-800 font-black line-through">R$ 47,00</span>
               <span className="text-emerald-600 font-black ml-2 text-lg">HOJE: GRÁTIS</span>
@@ -390,7 +547,7 @@ export default function App() {
             <img 
               src={IMAGES.guarantee} 
               alt="Garantia de 7 dias" 
-              className="w-24 h-24 mx-auto mb-6 drop-shadow-xl"
+              className="w-full max-w-[240px] h-auto mx-auto mb-6 object-contain"
               referrerPolicy="no-referrer"
             />
             <h2 className="text-2xl font-black mb-4 tracking-tighter">Você tem 7 dias para conhecer o material</h2>
@@ -445,34 +602,15 @@ export default function App() {
             Veja o que nossas clientes estão criando
           </SectionTitle>
 
-          <div className="space-y-4 mb-8">
+          <div className="space-y-4">
             {/* Facebook style Testimonials */}
             {[
-              { name: "Juliana Martins", text: "Amei esse pacote! Comprei na semana passada e chegou certinho no meu e-mail. Vale super a pena!", date: "1 h" },
-              { name: "Ana Lúcia Santos", text: "Quero comprar também, vou fazer pro meu netinho de 2 anos. 😍", date: "3 h" },
-              { name: "Kátia Luciana F.", text: "Esses moldes me ajudam demais, agilizam meu trabalho e as partes se encaixam certinho.", date: "1 d" }
+              { name: "Juliana Martins", text: "Amei esse pacote! Comprei na semana passada e chegou certinho no meu e-mail. Vale super a pena!", date: "1 h", avatar: IMAGES.avatar1 },
+              { name: "Ana Lúcia Santos", text: "Quero comprar também, vou fazer pro meu netinho de 2 anos. 😍", date: "3 h", avatar: IMAGES.avatar2 },
+              { name: "Kátia Luciana F.", text: "Esses moldes me ajudam demais, agilizam meu trabalho e as partes se encaixam certinho.", date: "1 d", avatar: IMAGES.avatar3 }
             ].map((t, i) => (
-              <div key={i} className="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-400 font-black text-xs">
-                    {t.name[0]}
-                  </div>
-                  <div>
-                    <h4 className="text-sm font-black text-slate-900 leading-none mb-1">{t.name}</h4>
-                    <span className="text-[10px] text-slate-400 font-bold">{t.date}</span>
-                  </div>
-                </div>
-                <p className="text-sm text-slate-700 leading-snug">{t.text}</p>
-                <div className="mt-3 pt-3 border-t border-slate-100 flex gap-4">
-                  <button className="text-[10px] font-black text-slate-400 hover:text-rose-500 uppercase tracking-widest">Curtir</button>
-                  <button className="text-[10px] font-black text-slate-400 hover:text-rose-500 uppercase tracking-widest">Responder</button>
-                </div>
-              </div>
+              <TestimonialCard key={i} {...t} />
             ))}
-          </div>
-
-          <div className="bg-white p-4 rounded-xl border-2 border-dashed border-slate-200 text-center">
-            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">[INSERIR FOTO REAL DE RESULTADO]</p>
           </div>
         </div>
       </section>
