@@ -31,9 +31,43 @@ const IMAGES = {
   sample1: "/src/assets/images/costume_sample_1_1791402133658.jpg",
   sample2: "/src/assets/images/costume_sample_2_1791402142657.jpg",
   bonus: "/src/assets/images/bonus_kit_mockup_1791402151011.jpg",
+  marquee: [
+    "/images/molde-01.webp",
+    "/images/molde-02.webp",
+    "/images/molde-03.webp",
+    "/images/molde-04.webp",
+    "/images/molde-05.webp",
+    "/images/molde-06.webp",
+    "/images/molde-07.webp",
+    "/images/molde-08.webp",
+    "/images/molde-09.webp",
+    "/images/molde-10.webp",
+  ]
 };
 
 // --- COMPONENTS ---
+
+const MarqueeCard = ({ src, alt }: { src: string, alt: string }) => (
+  <div className="flex-shrink-0 w-[140px] aspect-[3/4] bg-white rounded-[14px] overflow-hidden shadow-sm border border-slate-100">
+    <img src={src} alt={alt} className="w-full h-full object-cover" loading="lazy" referrerPolicy="no-referrer" />
+  </div>
+);
+
+const InfiniteMarquee = ({ images, direction = 'left', speed = '30s' }: { images: string[], direction?: 'left' | 'right', speed?: string }) => {
+  const doubledImages = [...images, ...images];
+  return (
+    <div className="relative overflow-hidden py-2">
+      <div 
+        className={`flex gap-3 w-fit ${direction === 'left' ? 'animate-marquee-left' : 'animate-marquee-right'} hover:[animation-play-state:paused]`}
+        style={{ animationDuration: speed }}
+      >
+        {doubledImages.map((src, i) => (
+          <MarqueeCard key={i} src={src} alt={`Molde Fantasia ${i + 1}`} />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const UrgencyBar = () => {
   const [date, setDate] = useState("");
@@ -67,7 +101,7 @@ const CTAButton = ({ children, className = "", secondary = false }: { children: 
 );
 
 const SectionTitle = ({ children, subtitle }: { children: React.ReactNode, subtitle?: string }) => (
-  <div className="text-center mb-8 px-4">
+  <div className="text-center mb-6 px-4">
     <h2 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight mb-2 uppercase tracking-tight">
       {children}
     </h2>
@@ -125,70 +159,74 @@ export default function App() {
       <UrgencyBar />
 
       {/* --- HERO SECTION --- */}
-      <section className="bg-white pt-8 pb-12 px-4">
+      <section className="bg-white pt-8 pb-10 px-4">
         <div className="max-w-md mx-auto">
-          <div className="flex justify-center mb-4">
-            <span className="bg-rose-100 text-rose-600 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
-              20 Moldes Digitais em PDF
+          <div className="flex justify-center mb-5">
+            <span className="bg-rose-50 text-rose-600 border border-rose-100 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.1em]">
+              ✂️ 20 Moldes Digitais em PDF
             </span>
           </div>
           
-          <h1 className="text-3xl font-black text-center leading-[1.1] mb-6 tracking-tighter">
-            Crie Fantasias Infantis Incríveis com Moldes Prontos para Imprimir <span className="inline-block">✂️</span>
+          <h1 className="text-3xl font-black text-center leading-[1.1] mb-4 tracking-tighter">
+            Crie <span className="text-rose-600">Fantasias Infantis</span> Incríveis com Moldes Prontos para Imprimir
           </h1>
 
-          <p className="text-slate-600 text-center text-sm md:text-base mb-8 px-2">
-            Receba uma coleção com 20 moldes de fantasias infantis em PDF, preparados para impressão em folha A4.
+          <p className="text-slate-500 text-center text-sm mb-8 leading-relaxed px-4">
+            Receba 20 moldes digitais em PDF, prontos para imprimir em folha A4 e usar nas suas próximas criações.
           </p>
 
-          <div className="bg-slate-50 rounded-2xl p-6 mb-8 space-y-3">
+          <div className="grid grid-cols-2 gap-2 mb-8">
             {[
-              "20 moldes digitais exclusivos",
-              "Arquivos em PDF de alta qualidade",
-              "Impressão fácil em folha A4",
-              "Acesso imediato após a compra"
+              "20 modelos",
+              "Arquivos em PDF",
+              "Impressão em A4",
+              "Acesso digital"
             ].map((item, i) => (
-              <div key={i} className="flex items-center gap-3">
-                <div className="bg-emerald-500 rounded-full p-0.5">
-                  <Check className="w-4 h-4 text-white" />
-                </div>
-                <span className="text-sm font-bold text-slate-700">{item}</span>
+              <div key={i} className="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100">
+                <Check className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                <span className="text-[11px] font-bold text-slate-700 whitespace-nowrap uppercase tracking-tight">{item}</span>
               </div>
             ))}
           </div>
 
-          <div className="text-center animate-bounce mb-2">
-            <p className="text-xs font-bold text-slate-400">Veja abaixo tudo o que você vai receber 👇</p>
+          <div className="bg-emerald-50/50 rounded-2xl p-6 mb-2 border border-emerald-100 text-center">
+            <p className="text-emerald-800 font-black text-xs uppercase tracking-[0.2em] mb-1">Oferta Especial</p>
+            <div className="flex items-start justify-center">
+              <span className="text-xl font-black text-emerald-600 mt-1 mr-0.5">R$</span>
+              <span className="text-6xl font-black text-emerald-600 tracking-tighter">19,90</span>
+            </div>
+          </div>
+
+          <div className="space-y-4 pt-4">
+            <CTAButton>QUERO RECEBER OS 20 MOLDES</CTAButton>
+            <div className="flex items-center justify-center gap-3 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+              <span className="flex items-center gap-1.5"><Lock className="w-3 h-3" /> Pagamento Seguro</span>
+              <span className="flex items-center gap-1.5">·</span>
+              <span className="flex items-center gap-1.5">Acesso Digital</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* --- PRODUCT GALLERY --- */}
-      <section className="py-12 px-4 bg-white border-y border-slate-100">
+      {/* --- MARQUEE SHOWCASE --- */}
+      <section className="py-10 bg-white border-y border-slate-100">
         <div className="max-w-md mx-auto">
-          <SectionTitle subtitle="São 20 moldes de fantasias infantis reunidos em um único pacote.">
-            Olha quanta coisa você poderá criar 😍
+          <SectionTitle subtitle="Alguns dos modelos que você recebe no pacote">
+            Olha quantas coisas você poderá criar 😍
           </SectionTitle>
+        </div>
 
-          <div className="grid grid-cols-2 gap-3 mb-8">
-            <div className="aspect-[3/4] bg-slate-100 rounded-xl overflow-hidden relative">
-               <img src={IMAGES.sample1} alt="Molde Leão" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-               <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-[10px] text-white font-bold">MOLDE LEÃO</div>
-            </div>
-            <div className="aspect-[3/4] bg-slate-100 rounded-xl overflow-hidden relative">
-               <img src={IMAGES.sample2} alt="Molde Fada" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-               <div className="absolute bottom-2 left-2 bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-[10px] text-white font-bold">MOLDE FADA</div>
-            </div>
-            {/* Generating 18 placeholders as requested */}
-            {Array.from({ length: 18 }).map((_, i) => (
-              <div key={i} className="aspect-[3/4] bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-center p-4 group">
-                <div className="text-center space-y-2">
-                  <Scissors className="w-8 h-8 text-slate-300 mx-auto" />
-                  <span className="block text-[10px] font-black text-slate-400 uppercase">Molde {i + 3}</span>
-                </div>
-              </div>
-            ))}
-          </div>
+        <div className="flex flex-col gap-1">
+          <InfiniteMarquee 
+            images={IMAGES.marquee.slice(0, 5)} 
+            direction="left" 
+            speed="30s" 
+          />
+          <InfiniteMarquee 
+            images={IMAGES.marquee.slice(5, 10)} 
+            direction="right" 
+            speed="34s" 
+          />
         </div>
       </section>
 
