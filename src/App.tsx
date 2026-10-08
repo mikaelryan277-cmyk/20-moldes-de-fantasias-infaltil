@@ -243,7 +243,7 @@ const UrgencyBar = () => {
 
   return (
     <div className="bg-[#E11D48] text-white py-2 text-center text-[10px] font-bold uppercase tracking-[0.2em] sticky top-0 z-50">
-      🔥 Oferta Especial — {date || "HOJE"}
+      🔥 Oferta Especial {date || "HOJE"}
     </div>
   );
 };
