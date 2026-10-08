@@ -248,20 +248,41 @@ const UrgencyBar = () => {
   );
 };
 
-const CTAButton = ({ children, className = "", secondary = false }: { children: React.ReactNode, className?: string, secondary?: boolean }) => (
-  <a 
-    href={CHECKOUT_URL}
-    className={`
-      inline-flex items-center justify-center w-full py-4 px-6 rounded-xl font-black text-lg transition-all active:scale-95 shadow-lg
-      ${secondary 
-        ? "bg-white text-[#10B981] border-2 border-[#10B981] hover:bg-slate-50" 
-        : "bg-[#10B981] text-white hover:bg-[#059669] shadow-[#10B981]/20"}
-      ${className}
-    `}
-  >
-    {children}
-  </a>
-);
+// --- PIXEL TRACKING HELPER ---
+let hasTrackedViewContent = false;
+
+const trackPixelEvent = (event: string, data?: Record<string, unknown>) => {
+  if (typeof window !== 'undefined' && typeof (window as any).fbq === 'function') {
+    (window as any).fbq('track', event, data);
+  }
+};
+
+const CTAButton = ({ children, className = "", secondary = false }: { children: React.ReactNode, className?: string, secondary?: boolean }) => {
+  const handleInitiateCheckout = () => {
+    trackPixelEvent('InitiateCheckout', {
+      content_name: "Pacote de Fantasias Infantis",
+      content_type: "product",
+      value: 19.90,
+      currency: "BRL"
+    });
+  };
+
+  return (
+    <a 
+      href={CHECKOUT_URL}
+      onClick={handleInitiateCheckout}
+      className={`
+        inline-flex items-center justify-center w-full py-4 px-6 rounded-xl font-black text-lg transition-all active:scale-95 shadow-lg
+        ${secondary 
+          ? "bg-white text-[#10B981] border-2 border-[#10B981] hover:bg-slate-50" 
+          : "bg-[#10B981] text-white hover:bg-[#059669] shadow-[#10B981]/20"}
+        ${className}
+      `}
+    >
+      {children}
+    </a>
+  );
+};
 
 const SectionTitle = ({ children, subtitle }: { children: React.ReactNode, subtitle?: string }) => (
   <div className="text-center mb-6 px-4">
@@ -302,6 +323,18 @@ const FAQItem = ({ question, answer }: { question: string, answer: React.ReactNo
 };
 
 export default function App() {
+  useEffect(() => {
+    if (!hasTrackedViewContent) {
+      hasTrackedViewContent = true;
+      trackPixelEvent('ViewContent', {
+        content_name: "Pacote de Fantasias Infantis",
+        content_type: "product",
+        value: 19.90,
+        currency: "BRL"
+      });
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-rose-100 selection:text-rose-900 overflow-x-hidden">
       <UrgencyBar />
