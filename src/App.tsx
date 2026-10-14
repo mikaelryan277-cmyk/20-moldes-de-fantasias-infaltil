@@ -52,16 +52,35 @@ const IMAGES = {
 
 // --- COMPONENTS ---
 
-const MarqueeCard = ({ src }: { src: string }) => (
+const MarqueeCard = ({ src, isPriority = false }: { src: string; isPriority?: boolean }) => (
   <div className="w-[155px] md:w-[165px] aspect-[4/5] bg-slate-200 rounded-xl overflow-hidden shadow-sm flex-shrink-0">
-    <img src={src} alt="" className="w-full h-full object-cover" loading="lazy" referrerPolicy="no-referrer" />
+    <img 
+      src={src} 
+      alt="Molde de Fantasia Infantil" 
+      className="w-full h-full object-cover" 
+      loading={isPriority ? "eager" : "lazy"} 
+      fetchPriority={isPriority ? "high" : "auto"}
+      decoding={isPriority ? "sync" : "async"}
+      width="165"
+      height="206"
+      referrerPolicy="no-referrer" 
+    />
   </div>
 );
 
 const AutoplaySlider = ({ images, direction = 'left', interval = 2000 }: { images: string[], direction?: 'left' | 'right', interval?: number }) => {
-  const [index, setIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(true);
+  // Start right carousel immediately at the end of the first set without delay or re-render
+  const [index, setIndex] = useState(() => direction === 'right' ? images.length : 0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   
+  // Preload all carousel images in background to avoid any blank cards during rotation
+  useEffect(() => {
+    images.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+    });
+  }, [images]);
+
   // We double the images to allow smooth infinite loop
   const displayImages = [...images, ...images];
   const itemWidth = 165; // Matches card width
@@ -111,14 +130,6 @@ const AutoplaySlider = ({ images, direction = 'left', interval = 2000 }: { image
     }
   }, [index, images.length, direction]);
 
-  // For the 'right' direction, we start at the end of the first set
-  useEffect(() => {
-    if (direction === 'right') {
-      setIndex(images.length);
-      setIsTransitioning(false);
-    }
-  }, [direction, images.length]);
-
   const offset = -index * step;
 
   return (
@@ -131,9 +142,16 @@ const AutoplaySlider = ({ images, direction = 'left', interval = 2000 }: { image
           paddingLeft: '16px' // Initial offset to show previous cards
         }}
       >
-        {displayImages.map((src, i) => (
-          <MarqueeCard key={i} src={src} />
-        ))}
+        {displayImages.map((src, i) => {
+          // Eagerly load the initially visible cards with high priority
+          const isInitialVisible = direction === 'left'
+            ? i < 3
+            : (i >= images.length && i < images.length + 3);
+
+          return (
+            <MarqueeCard key={i} src={src} isPriority={isInitialVisible} />
+          );
+        })}
       </div>
     </div>
   );
