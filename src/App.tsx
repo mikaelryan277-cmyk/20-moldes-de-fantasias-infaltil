@@ -269,30 +269,25 @@ const UrgencyBar = () => {
 // --- PIXEL TRACKING HELPER ---
 let hasTrackedViewContent = false;
 
-const trackPixelEvent = (event: string, data?: Record<string, unknown>, isCustom = false) => {
+const trackPixelEvent = (event: string, data?: Record<string, unknown>) => {
   if (typeof window !== 'undefined' && typeof (window as any).fbq === 'function') {
-    if (isCustom) {
-      (window as any).fbq('trackCustom', event, data);
-    } else {
-      (window as any).fbq('track', event, data);
-    }
+    (window as any).fbq('track', event, data);
   }
 };
 
-const CTAButton = ({ children, className = "", secondary = false, location }: { children: React.ReactNode, className?: string, secondary?: boolean, location: string }) => {
-  const handleCTAClick = () => {
-    trackPixelEvent('CTA_Click', {
+const CTAButton = ({ children, className = "", secondary = false }: { children: React.ReactNode, className?: string, secondary?: boolean }) => {
+  const handleInitiateCheckout = () => {
+    trackPixelEvent('InitiateCheckout', {
       content_name: "Pacote de Fantasias Infantis",
-      button_location: location,
       value: 19.90,
       currency: "BRL"
-    }, true);
+    });
   };
 
   return (
     <a 
       href={CHECKOUT_URL}
-      onClick={handleCTAClick}
+      onClick={handleInitiateCheckout}
       className={`
         inline-flex items-center justify-center w-full py-4 px-6 rounded-xl font-black text-lg transition-all active:scale-95 shadow-lg
         ${secondary 
@@ -441,7 +436,7 @@ export default function App() {
           </div>
 
           <div className="space-y-4 mb-8">
-            <CTAButton location="middle">QUERO RECEBER OS 20 MOLDES</CTAButton>
+            <CTAButton>QUERO RECEBER OS 20 MOLDES</CTAButton>
             <div className="flex items-center justify-center gap-4 text-[10px] text-slate-400 font-bold uppercase tracking-widest">
               <span className="flex items-center gap-1"><Lock className="w-3 h-3" /> Pagamento Seguro</span>
               <span className="flex items-center gap-1"><Download className="w-3 h-3" /> Acesso Digital</span>
@@ -632,7 +627,7 @@ export default function App() {
             <p className="text-xs font-bold text-slate-400">PAGAMENTO ÚNICO • SEM MENSALIDADES</p>
           </div>
 
-          <CTAButton className="mb-4" location="final">QUERO MEUS MOLDES AGORA</CTAButton>
+          <CTAButton className="mb-4">QUERO MEUS MOLDES AGORA</CTAButton>
           <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Acesso enviado imediatamente no seu e-mail</p>
         </div>
       </section>
@@ -699,7 +694,7 @@ export default function App() {
         <div className="max-w-md mx-auto">
           <h2 className="text-3xl font-black mb-4 tracking-tighter italic">Comece hoje mesmo a criar suas fantasias</h2>
           <div className="text-2xl font-black text-emerald-400 mb-6 tracking-tight">R$ 19,90</div>
-          <CTAButton location="final">QUERO RECEBER OS 20 MOLDES</CTAButton>
+          <CTAButton>QUERO RECEBER OS 20 MOLDES</CTAButton>
           <div className="flex items-center justify-center gap-4 mt-6 text-[10px] text-slate-500 font-bold uppercase tracking-widest">
             <span>Pagamento Único</span>
             <span>·</span>
