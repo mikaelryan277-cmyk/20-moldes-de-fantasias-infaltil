@@ -366,11 +366,11 @@ export default function App() {
           </div>
           
           <h1 className="text-3xl font-black text-center leading-[1.1] mb-4 tracking-tighter">
-            Crie <span className="text-rose-600">Fantasias Infantis</span> Incríveis com Moldes Prontos para Imprimir
+            Quer fazer uma <span className="text-rose-600">fantasia linda para seu netinho</span>, mas não sabe por onde começar?
           </h1>
 
           <p className="text-slate-500 text-center text-sm mb-8 leading-relaxed px-4">
-            Receba 20 moldes digitais em PDF, prontos para imprimir em folha A4 e usar nas suas próximas criações.
+            Com 20 moldes infantis em PDF, você não precisa desenhar os modelos do zero. Escolha sua fantasia favorita e prepare seu próximo projeto.
           </p>
 
           <div className="grid grid-cols-2 gap-2 mb-10">
@@ -532,11 +532,11 @@ export default function App() {
 
           <div className="space-y-4">
             {[
-              "Gosta de costurar peças infantis para filhos ou netos",
-              "Quer economizar tempo criando moldes do zero",
-              "Procura novas ideias de fantasias criativas",
-              "Quer ter vários modelos reunidos em um único pacote prático",
-              "Prefere a praticidade de imprimir os moldes em casa"
+              "Sonha em costurar uma fantasia especial para seu netinho, sua filha ou outra criança querida.",
+              "Gosta de costurar, mas não sabe criar moldes de fantasias do zero.",
+              "Quer ter diferentes modelos à disposição para escolher seu próximo projeto.",
+              "Sente orgulho de presentear uma criança com algo feito por você mesma.",
+              "Prefere a praticidade de imprimir moldes prontos em casa para economizar tempo."
             ].map((item, i) => (
               <div key={i} className="flex gap-4 items-center">
                 <div className="bg-rose-50 rounded-full p-2 shrink-0">
@@ -671,7 +671,7 @@ export default function App() {
             />
             <FAQItem 
               question="Quais tamanhos estão disponíveis?" 
-              answer="[PREENCHER] - Geralmente os moldes seguem uma grade infantil padrão que atende a diversas idades." 
+              answer="Os moldes atendem a uma grade infantil que contempla desde bebês até crianças maiores (conforme indicado em cada modelo), permitindo ajustes simples conforme a necessidade." 
             />
             <FAQItem 
               question="Preciso saber costurar?" 
@@ -692,7 +692,7 @@ export default function App() {
       {/* --- FINAL CTA --- */}
       <section className="py-16 px-4 bg-slate-900 text-white text-center">
         <div className="max-w-md mx-auto">
-          <h2 className="text-3xl font-black mb-4 tracking-tighter italic">Comece hoje mesmo a criar suas fantasias</h2>
+          <h2 className="text-3xl font-black mb-4 tracking-tighter italic">Transforme carinho em fantasia para quem você ama</h2>
           <div className="text-2xl font-black text-emerald-400 mb-6 tracking-tight">R$ 19,90</div>
           <CTAButton>QUERO RECEBER OS 20 MOLDES</CTAButton>
           <div className="flex items-center justify-center gap-4 mt-6 text-[10px] text-slate-500 font-bold uppercase tracking-widest">
