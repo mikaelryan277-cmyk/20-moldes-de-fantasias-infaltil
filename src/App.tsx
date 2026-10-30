@@ -29,13 +29,16 @@ const IMAGES = {
   hero: "/src/assets/images/hero_mockup_1791402111308.jpg",
   sample1: "/src/assets/images/costume_sample_1_1791402133658.jpg",
   sample2: "/src/assets/images/costume_sample_2_1791402142657.jpg",
-  bonus: "/images/bonus-kit-3-princesas.jpg",
-  guarantee: "/images/garantia-7-dias.png",
-  infographic: "/images/infografico-moldes.jpg",
+  bonus: "/images/bonus-kit-3-princesas.webp",
+  guarantee: "/images/garantia-7-dias.webp",
+  infographic: "/images/infografico-moldes.webp",
   section_digital: "/images/moldes-prontos-pdf.webp",
   avatar1: "/images/avatar-avaliacao-01.webp",
   avatar2: "/images/avatar-avaliacao-02.webp",
   avatar3: "/images/avatar-avaliacao-03.webp",
+  demo_card1: "/images/passo1-moldes-pdf.webp",
+  demo_card2: "/images/passo2-imprima-folhas-a4.webp",
+  demo_card3: "/images/passo3-prepare-fantasia.webp",
   marquee: [
     "/images/fantasia-01.webp",
     "/images/fantasia-02.webp",
@@ -175,7 +178,16 @@ const TestimonialCard = ({ name, text, date, avatar }: { name: string, text: str
     <div className="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
       <div className="flex items-center gap-3 mb-2">
         <div className="w-[46px] h-[46px] rounded-full overflow-hidden border border-white shadow-sm flex-shrink-0">
-          <img src={avatar} alt={name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+          <img 
+            src={avatar} 
+            alt={name} 
+            width="46" 
+            height="46" 
+            loading="lazy" 
+            decoding="async" 
+            className="w-full h-full object-cover" 
+            referrerPolicy="no-referrer" 
+          />
         </div>
         <div>
           <h4 className="text-sm font-black text-slate-900 leading-none mb-1">{name}</h4>
@@ -365,12 +377,12 @@ export default function App() {
             </span>
           </div>
           
-          <h1 className="text-3xl font-black text-center leading-[1.1] mb-4 tracking-tighter">
-            Quer fazer uma <span className="text-rose-600">fantasia linda para seu netinho</span>, mas não sabe por onde começar?
+          <h1 className="text-2xl sm:text-3xl font-black text-center leading-tight sm:leading-[1.15] mb-4 tracking-tight">
+            Costure fantasias infantis encantadoras com <span className="text-rose-600">20 moldes</span> prontos para <span className="text-rose-600">imprimir em casa</span>! ❤️
           </h1>
 
-          <p className="text-slate-500 text-center text-sm mb-8 leading-relaxed px-4">
-            Com 20 moldes infantis em PDF, você não precisa desenhar os modelos do zero. Escolha sua fantasia favorita e prepare seu próximo projeto.
+          <p className="text-slate-500 text-center text-sm mb-8 leading-relaxed px-3 sm:px-4">
+            Receba 20 moldes digitais em PDF, nos tamanhos de 1 a 14 anos, para imprimir em folhas A4 e criar fantasias lindas no seu ritmo, mesmo que esteja começando na costura.
           </p>
 
           <div className="grid grid-cols-2 gap-2 mb-10">
@@ -412,6 +424,100 @@ export default function App() {
             direction="right" 
             interval={2300}
           />
+        </div>
+      </section>
+
+      {/* --- DEMONSTRAÇÃO DO PRODUTO --- */}
+      <section className="py-14 px-4 bg-rose-50/40 border-t border-rose-100/70">
+        <div className="max-w-md mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-black text-slate-900 leading-tight mb-2 tracking-tight">
+              Veja exatamente o que você vai receber! ❤️
+            </h2>
+            <p className="text-slate-600 text-sm leading-relaxed px-2">
+              Seu kit é 100% digital: você recebe os moldes em PDF, imprime em folhas A4 e utiliza os arquivos para preparar suas fantasias infantis.
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            {/* CARD 1 — RECEBA OS MOLDES EM PDF */}
+            <div className="bg-white rounded-3xl p-5 border border-rose-100 shadow-sm shadow-rose-100/50 flex flex-col">
+              <div className="mb-4">
+                <span className="inline-block bg-rose-50 text-rose-600 border border-rose-200/80 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider mb-2">
+                  Passo 1
+                </span>
+                <h3 className="text-base font-black text-slate-900 uppercase tracking-tight">
+                  RECEBA OS MOLDES EM PDF
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed mt-1">
+                  Tenha acesso aos arquivos digitais dos moldes para baixar e imprimir.
+                </p>
+              </div>
+              <div className="w-full rounded-2xl overflow-hidden border border-rose-100/80 shadow-sm bg-rose-50/20">
+                <img 
+                  src={IMAGES.demo_card1} 
+                  alt="Receba os moldes em PDF - Arquivos digitais prontos para imprimir" 
+                  width="1536"
+                  height="1024"
+                  className="w-full h-auto block rounded-2xl"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+
+            {/* CARD 2 — IMPRIMA EM FOLHAS A4 */}
+            <div className="bg-white rounded-3xl p-5 border border-rose-100 shadow-sm shadow-rose-100/50 flex flex-col">
+              <div className="mb-4">
+                <span className="inline-block bg-rose-50 text-rose-600 border border-rose-200/80 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider mb-2">
+                  Passo 2
+                </span>
+                <h3 className="text-base font-black text-slate-900 uppercase tracking-tight">
+                  IMPRIMA EM FOLHAS A4
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed mt-1">
+                  Imprima as páginas e monte o molde seguindo as marcações do arquivo.
+                </p>
+              </div>
+              <div className="w-full rounded-2xl overflow-hidden border border-rose-100/80 shadow-sm bg-rose-50/20">
+                <img 
+                  src={IMAGES.demo_card2} 
+                  alt="Imprima em folhas A4 - Folhas impressas e montadas com precisão" 
+                  width="1536"
+                  height="1024"
+                  className="w-full h-auto block rounded-2xl"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+
+            {/* CARD 3 — PREPARE SUA FANTASIA */}
+            <div className="bg-white rounded-3xl p-5 border border-rose-100 shadow-sm shadow-rose-100/50 flex flex-col">
+              <div className="mb-4">
+                <span className="inline-block bg-rose-50 text-rose-600 border border-rose-200/80 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider mb-2">
+                  Passo 3
+                </span>
+                <h3 className="text-base font-black text-slate-900 uppercase tracking-tight">
+                  PREPARE SUA FANTASIA
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed mt-1">
+                  Use o molde como base para cortar o tecido e costurar sua fantasia.
+                </p>
+              </div>
+              <div className="w-full rounded-2xl overflow-hidden border border-rose-100/80 shadow-sm bg-rose-50/20">
+                <img 
+                  src={IMAGES.demo_card3} 
+                  alt="Prepare sua fantasia - Costure seguindo as marcações do molde" 
+                  width="1536"
+                  height="1024"
+                  className="w-full h-auto block rounded-2xl"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -502,6 +608,10 @@ export default function App() {
             <img 
               src={IMAGES.section_digital} 
               alt="Digital Product Mockup" 
+              width="1536"
+              height="1024"
+              loading="lazy"
+              decoding="async"
               className="w-full h-auto relative z-10 rounded-2xl shadow-xl object-contain border border-white bg-white"
               referrerPolicy="no-referrer"
             />
@@ -563,6 +673,10 @@ export default function App() {
             <img 
               src={IMAGES.bonus} 
               alt="Bônus Kit 3 Princesas" 
+              width="1230"
+              height="1278"
+              loading="lazy"
+              decoding="async"
               className="w-full h-auto rounded-2xl shadow-md object-contain"
               referrerPolicy="no-referrer"
             />
@@ -584,6 +698,10 @@ export default function App() {
             <img 
               src={IMAGES.guarantee} 
               alt="Garantia de 7 dias" 
+              width="600"
+              height="503"
+              loading="lazy"
+              decoding="async"
               className="w-full max-w-[240px] h-auto mx-auto mb-6 object-contain"
               referrerPolicy="no-referrer"
             />
