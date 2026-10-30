@@ -37,8 +37,11 @@ const IMAGES = {
   avatar2: "/images/avatar-avaliacao-02.webp",
   avatar3: "/images/avatar-avaliacao-03.webp",
   demo_card1: "/images/passo1-moldes-pdf.webp",
+  demo_card1_fallback: "https://i.imgur.com/a50RjvI.png",
   demo_card2: "/images/passo2-imprima-folhas-a4.webp",
+  demo_card2_fallback: "https://i.imgur.com/Qi2zqFM.png",
   demo_card3: "/images/passo3-prepare-fantasia.webp",
+  demo_card3_fallback: "https://i.imgur.com/IR4N7uU.png",
   marquee: [
     "/images/fantasia-01.webp",
     "/images/fantasia-02.webp",
@@ -453,16 +456,19 @@ export default function App() {
                   Tenha acesso aos arquivos digitais dos moldes para baixar e imprimir.
                 </p>
               </div>
-              <div className="w-full rounded-2xl overflow-hidden border border-rose-100/80 shadow-sm bg-rose-50/20">
-                <img 
-                  src={IMAGES.demo_card1} 
-                  alt="Receba os moldes em PDF - Arquivos digitais prontos para imprimir" 
-                  width="1536"
-                  height="1024"
-                  className="w-full h-auto block rounded-2xl"
-                  loading="lazy"
-                  decoding="async"
-                />
+              <div className="w-full rounded-2xl overflow-hidden border border-rose-100/80 shadow-sm bg-rose-50/20 aspect-[1086/1448]">
+                <picture>
+                  <source type="image/webp" srcSet={IMAGES.demo_card1} />
+                  <img 
+                    src={IMAGES.demo_card1_fallback} 
+                    alt="Receba os moldes em PDF - Arquivos digitais prontos para imprimir" 
+                    width="1086"
+                    height="1448"
+                    className="w-full h-full object-cover block rounded-2xl"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
               </div>
             </div>
 
@@ -479,16 +485,19 @@ export default function App() {
                   Imprima as páginas e monte o molde seguindo as marcações do arquivo.
                 </p>
               </div>
-              <div className="w-full rounded-2xl overflow-hidden border border-rose-100/80 shadow-sm bg-rose-50/20">
-                <img 
-                  src={IMAGES.demo_card2} 
-                  alt="Imprima em folhas A4 - Folhas impressas e montadas com precisão" 
-                  width="1536"
-                  height="1024"
-                  className="w-full h-auto block rounded-2xl"
-                  loading="lazy"
-                  decoding="async"
-                />
+              <div className="w-full rounded-2xl overflow-hidden border border-rose-100/80 shadow-sm bg-rose-50/20 aspect-[1086/1448]">
+                <picture>
+                  <source type="image/webp" srcSet={IMAGES.demo_card2} />
+                  <img 
+                    src={IMAGES.demo_card2_fallback} 
+                    alt="Imprima em folhas A4 - Folhas impressas e montadas com precisão" 
+                    width="1086"
+                    height="1448"
+                    className="w-full h-full object-cover block rounded-2xl"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
               </div>
             </div>
 
@@ -505,16 +514,19 @@ export default function App() {
                   Use o molde como base para cortar o tecido e costurar sua fantasia.
                 </p>
               </div>
-              <div className="w-full rounded-2xl overflow-hidden border border-rose-100/80 shadow-sm bg-rose-50/20">
-                <img 
-                  src={IMAGES.demo_card3} 
-                  alt="Prepare sua fantasia - Costure seguindo as marcações do molde" 
-                  width="1536"
-                  height="1024"
-                  className="w-full h-auto block rounded-2xl"
-                  loading="lazy"
-                  decoding="async"
-                />
+              <div className="w-full rounded-2xl overflow-hidden border border-rose-100/80 shadow-sm bg-rose-50/20 aspect-[1086/1448]">
+                <picture>
+                  <source type="image/webp" srcSet={IMAGES.demo_card3} />
+                  <img 
+                    src={IMAGES.demo_card3_fallback} 
+                    alt="Prepare sua fantasia - Costure seguindo as marcações do molde" 
+                    width="1086"
+                    height="1448"
+                    className="w-full h-full object-cover block rounded-2xl"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
               </div>
             </div>
           </div>
