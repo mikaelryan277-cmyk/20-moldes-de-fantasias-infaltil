@@ -163,7 +163,7 @@ const AutoplaySlider = ({ images, direction = 'left', interval = 2000 }: { image
   );
 };
 
-const TestimonialCard = ({ name, text, date, avatar, image }: { name: string, text: string, date: string, avatar: string, image?: string }) => {
+const TestimonialCard = ({ name, text, date, avatar }: { name: string, text: string, date: string, avatar: string }) => {
   const [liked, setLiked] = useState(false);
   const [replyOpen, setReplyOpen] = useState(false);
   const [replyInput, setReplyInput] = useState("");
@@ -198,12 +198,6 @@ const TestimonialCard = ({ name, text, date, avatar, image }: { name: string, te
         </div>
       </div>
       <p className="text-sm text-slate-700 leading-snug">{text}</p>
-      {image && (
-        <div className="mt-3">
-           <img src={image} alt="Avaliação" className="rounded-lg w-full object-cover" />
-           <p className="text-[10px] text-slate-400 mt-1 italic">Imagem ilustrativa</p>
-        </div>
-      )}
       
       <div className="mt-3 pt-3 border-t border-slate-100 flex gap-4">
         <button 
@@ -778,9 +772,9 @@ export default function App() {
           <div className="space-y-4">
             {/* Facebook style Testimonials */}
             {[
-              { name: "Juliana Martins", text: "Amei esse pacote! Comprei na semana passada e chegou certinho no meu e-mail. Vale super a pena!", date: "1 h", avatar: IMAGES.avatar1, image: "https://i.imgur.com/sJMca2q.png" },
-              { name: "Ana Lúcia Santos", text: "Gostei muito dos modelos! ❤️ Tem várias fantasias lindas para escolher, e achei ótimo receber os moldes", date: "3 h", avatar: IMAGES.avatar2, image: "https://i.imgur.com/pU5t0on.png" },
-              { name: "Kátia Luciana F.", text: "Esses moldes me ajudam demais, agilizam meu trabalho e as partes se encaixam certinho.", date: "1 d", avatar: IMAGES.avatar3, image: "https://i.imgur.com/C1sBVFT.png" }
+              { name: "Juliana Martins", text: "Amei esse pacote! Comprei na semana passada e chegou certinho no meu e-mail. Vale super a pena!", date: "1 h", avatar: IMAGES.avatar1 },
+              { name: "Ana Lúcia Santos", text: "Gostei muito dos modelos! ❤️ Tem várias fantasias lindas para escolher, e achei ótimo receber os moldes", date: "3 h", avatar: IMAGES.avatar2 },
+              { name: "Kátia Luciana F.", text: "Esses moldes me ajudam demais, agilizam meu trabalho e as partes se encaixam certinho.", date: "1 d", avatar: IMAGES.avatar3 }
             ].map((t, i) => (
               <TestimonialCard key={i} {...t} />
             ))}
